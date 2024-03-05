@@ -1,3 +1,4 @@
+import os
 import requests
 
 WEBHOOK_URL = database_password = os.getenv('WEBHOOK_URL')
