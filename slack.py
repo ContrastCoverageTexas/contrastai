@@ -1,6 +1,6 @@
 import requests
 
-WEBHOOK_URL = db.secrets.get("WEBHOOK_URL")
+WEBHOOK_URL = database_password = os.getenv('WEBHOOK_URL')
 
 def send_to_slack(message: str):
   """
