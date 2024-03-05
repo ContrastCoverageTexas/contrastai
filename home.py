@@ -106,22 +106,22 @@ def init_router():
 router = init_router()
 
 # Custom CSS for styling the Streamlit app
-# st.markdown(
-#     """
-#     <style>
-#     .stApp .main .block-container {
-#         padding-top: 30px;
-#     }
-#     .stApp [data-testid='stSidebar']>div:nth-child(1)>div:nth-child(2) {
-#         padding-top: 70px;
-#     }
-#     iframe {
-#         display: block;
-#     }
-#     </style>
-#     """,
-#     unsafe_allow_html=True,
-# )
+st.markdown(
+    """
+    <style>
+    .stApp .main .block-container {
+        padding-top: 30px;
+    }
+    .stApp [data-testid='stSidebar']>div:nth-child(1)>div:nth-child(2) {
+        padding-top: 70px;
+    }
+    iframe {
+        display: block;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True,
+)
 
 
 # Initialize session state for navigation index
