@@ -13,5 +13,4 @@ extra_streamlit_components
 streamlit_pills
 watchdog==3.0.0
 streamlit==1.26.0
-databutton==0.36.0
 ipykernel==6.25.1
