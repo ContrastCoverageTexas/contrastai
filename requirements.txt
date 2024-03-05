@@ -9,7 +9,7 @@ soundfile
 streamlit-autorefresh
 streamlit-lottie
 streamlit-antd-components
-extra_streamlit_components
+extra-streamlit-components==0.1.70
 streamlit_pills
 watchdog==3.0.0
 streamlit==1.26.0
