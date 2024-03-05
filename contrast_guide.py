@@ -5,6 +5,7 @@ from my_pdf_lib import get_index_for_pdf
 from key_check import check_for_openai_key
 from streamlit_extras.stylable_container import stylable_container
 from streamlit_pills import pills
+import requests
 
 
 # Template for the chat prompt with instructions for the AI
@@ -19,11 +20,25 @@ Your contrast media reaction training content is:
     {pdf_extract}
 """
 
-# Initialize CCT Logo
-logo_icon = db.storage.binary.get(key="logo-240")
-# user_icon = db.storage.binary.get(key="patient-avatar-png")
-physician_icon = db.storage.binary.get(key="physician-avatar-png")
+def get_file_from_github(url):
+    response = requests.get(url)
+    if response.status_code == 200:
+        return response.content
+    else:
+        print(f"Failed to download file from {url}. Status code: {response.status_code}")
+        return None
 
+# URLs to the GitHub-hosted files
+logo_icon_url = 'https://github.com/ContrastCoverageTexas/contrastai/blob/main/Files/logo-240.png?raw=true'
+# user_icon_url = 'https://github.com/ContrastCoverageTexas/contrastai/blob/main/Files/patient-avatar.png?raw=true'
+physician_icon_url = 'https://github.com/ContrastCoverageTexas/contrastai/blob/main/Files/physician-avatar.png'
+
+# Initialize CCT Logo
+logo_icon = get_file_from_github(logo_icon_url)
+# Initialize User Icon
+# user_icon = get_file_from_github(user_icon_url)
+# Initialize Physician Icon
+physician_icon = get_file_from_github(physician_icon_url)
 
 def guide_bot():
     # Setting the API key for OpenAI
