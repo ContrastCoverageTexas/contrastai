@@ -160,7 +160,7 @@ with st.sidebar.container():
 
     menu = sac.menu(
         items = [
-            sac.MenuItem("home", icon="house-fill"),
+            sac.MenuItem(label="home", icon="house-fill"),
             sac.MenuItem(
                 "products",
                 icon="box-fill",
