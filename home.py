@@ -159,7 +159,7 @@ with st.sidebar.container():
     st.subheader("ContrastAI")
 
     menu = sac.menu(
-        [
+        items = [
             sac.MenuItem("home", icon="house-fill"),
             sac.MenuItem(
                 "products",
