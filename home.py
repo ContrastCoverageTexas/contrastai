@@ -112,9 +112,9 @@ st.markdown(
     .stApp .main .block-container {
         padding-top: 30px;
     }
-    .stApp [data-testid='stSidebar']>div:nth-child(1)>div:nth-child(2) {
-        padding-top: 70px;
-    }
+    # .stApp [data-testid='stSidebar']>div:nth-child(1)>div:nth-child(2) {
+    #     padding-top: 70px;
+    # }
     iframe {
         display: block;
     }
