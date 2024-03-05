@@ -1,4 +1,3 @@
-import databutton as db
 import streamlit as st
 import streamlit_antd_components as sac
 from streamlit_extras.add_vertical_space import add_vertical_space 
@@ -39,9 +38,6 @@ def redirect(index=0):
 
 def home():
     
-    
-    # user = db.user.get()
-    # name = user.name if user.name else "you"
 
     image_url = "https://i.imgur.com/Wde1wB2.png"
     
