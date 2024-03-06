@@ -32,7 +32,7 @@ def get_file_from_github(url):
 # URLs to the GitHub-hosted files
 logo_icon_url = 'https://github.com/ContrastCoverageTexas/contrastai/blob/main/Files/logo-240.png?raw=true'
 # user_icon_url = 'https://github.com/ContrastCoverageTexas/contrastai/blob/main/Files/patient-avatar.png?raw=true'
-physician_icon_url = 'https://github.com/ContrastCoverageTexas/contrastai/blob/main/Files/physician-avatar.png'
+physician_icon_url = 'https://github.com/ContrastCoverageTexas/contrastai/blob/main/Files/physician-avatar.png?raw=true'
 
 # Initialize CCT Logo
 logo_icon = get_file_from_github(logo_icon_url)
