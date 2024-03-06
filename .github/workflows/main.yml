@@ -1,4 +1,4 @@
-name: Slack Notification
+name: Send dynamic message to Slack
 
 on:
   workflow_dispatch:
@@ -6,19 +6,15 @@ on:
       message:
         description: 'Message to send to Slack'
         required: true
-        default: 'Default message'
+        default: 'Emergency alarm triggered!'
 
 jobs:
-  slack-notify:
+  slack_notification:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-      
-    - name: Send Notification to Slack
-      env:
-        WEBHOOK_URL: ${{ secrets.WEBHOOK_URL }}
-      run: |
-        MESSAGE="${{ github.event.inputs.message }}"
-        curl -X POST -H 'Content-type: application/json' --data "{\"text\":\"${MESSAGE}\"}" $WEBHOOK_URL
-
+      - name: Send Slack Notification
+        run: |
+          MESSAGE="${{ github.event.inputs.message }}"
+          curl -X POST -H 'Content-type: application/json' --data "{\"text\":\"${MESSAGE}\"}" ${{ secrets.WEBHOOK_URL }}
+        env:
+          WEBHOOK_URL: ${{ secrets.WEBHOOK_URL }}
