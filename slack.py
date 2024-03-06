@@ -2,7 +2,7 @@ import os
 import requests
 
 # Use an environment variable for the webhook URL
-WEBHOOK_URL = os.getenv('WEBHOOK_URL')
+WEBHOOK_URL = "https://hooks.slack.com/services/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"
 
 def send_to_slack(message: str):
     """
