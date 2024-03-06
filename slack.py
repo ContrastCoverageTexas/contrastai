@@ -8,7 +8,7 @@ def send_to_slack(message: str):
     """
     Sends a simple text message to Slack
     """
-    WEBHOOK_URL = "https://hooks.slack.com/services/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"
+    WEBHOOK_URL = "https://hooks.slack.com/services/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"
     
     logging.info(f"Sending message to Slack: {message}")
     try:
