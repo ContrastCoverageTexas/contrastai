@@ -118,11 +118,12 @@ def guide_bot():
 
 # Function to download file content from GitHub
 def download_file_from_github(url):
-    response = requests.get(url)
-    if response.status_code == 200:
+    try:
+        response = requests.get(url)
+        response.raise_for_status()  # This will check for HTTP errors
         return response.content
-    else:
-        st.error(f"Failed to download file: {url}")
+    except requests.RequestException as e:
+        st.error(f"Failed to download file: {url}. Error: {e}")
         return None
 
 # URLs for the files stored on GitHub in their raw form
@@ -134,9 +135,15 @@ file_urls = [
 ]
 
 # Loading the vectordb on app load, if not already in session
-if "vectordb" not in st.session_state:
-    binary_data = [download_file_from_github(url) for url in file_urls]
-    st.session_state["vectordb"] = train_guide(binary_data)
+if "vectordb" not in st.session_state: 
+    binary_data = [download_file_from_github(url) for url in file_urls if download_file_from_github(url) is not None]
+    
+    # Ensure all files were downloaded successfully before proceeding
+    if len(binary_data) == len(file_urls):
+        st.session_state["vectordb"] = train_guide(binary_data)
+    else:
+        st.error("One or more files could not be downloaded. Please check the URLs and try again.")
+
 
     # Retrieving or initializing the chat prompt from session state
     prompt = st.session_state.get("prompt", [{"role": "system", "content": "none"}])
