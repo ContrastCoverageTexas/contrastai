@@ -1,0 +1,17 @@
+name: Example Workflow Using Secrets
+
+on: [push]
+
+jobs:
+  example_job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v2
+      - name: Use Webhook URL and OpenAI API Key
+        run: |
+          echo "Using Webhook URL: $WEBHOOK_URL"
+          echo "Using OpenAI API Key: $OPENAI_API_KEY"
+        env:
+          WEBHOOK_URL: ${{ secrets.WEBHOOK_URL }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
