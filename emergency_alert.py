@@ -90,7 +90,7 @@ def setup_streamlit_ui():
         st.experimental_rerun()
 
     if current_state:
-        sac.alert(message='Emergency in progress', description='Emergency occurring! Please check your CCT Zoom console immediately!', type='error', radius='lg', banner=[False, True], icon=False)
+        sac.alert(label='Emergency in progress', description='Emergency occurring! Please check your CCT Zoom console immediately!', color='red', radius='lg', banner=[False, True], icon=False)
 
         if st.button('Reset Alarm', type="primary", use_container_width=True):
             update_shared_state(False)
