@@ -1,15 +1,1 @@
-name: Example Workflow Accessing OPENAI_API_KEY
 
-on: push
-
-jobs:
-  example_job:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check out repository code
-        uses: actions/checkout@v2
-      
-      - name: Run script that needs OPENAI_API_KEY
-        run: python your_script.py
-        env:
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
