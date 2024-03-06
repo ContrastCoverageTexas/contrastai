@@ -1,7 +1,7 @@
 import os
 import requests
 
-WEBHOOK_URL = os.getenv('WEBHOOK_URL')
+WEBHOOK_URL = ${{ secrets.WEBHOOK_URL }}
 
 def send_to_slack(message: str):
   """
