@@ -1,12 +1,8 @@
 name: Slack Notification
 
 on:
-  workflow_dispatch:
-    inputs:
-      message:
-        description: 'Message to send to Slack'
-        required: true
-        default: 'Default message'
+  repository_dispatch:
+    types: [send-slack-message]
 
 jobs:
   slack-notify:
@@ -19,5 +15,5 @@ jobs:
       env:
         WEBHOOK_URL: ${{ secrets.WEBHOOK_URL }}
       run: |
-        MESSAGE="${{ github.event.inputs.message }}"
-        curl -X POST -H 'Content-type: application/json' --data "{\"text\":\"${MESSAGE}\"}" $WEBHOOK_URL
+        MESSAGE="${{ github.event.client_payload.message }}"
+        curl -X POST -H 'Content-type: application/json' --data "{\"blocks\":[{\"type\":\"section\",\"text\":{\"type\":\"mrkdwn\",\"text\":\"${MESSAGE}\"}}]}" $WEBHOOK_URL
