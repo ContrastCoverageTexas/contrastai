@@ -127,10 +127,10 @@ def download_file_from_github(url):
 
 # URLs for the files stored on GitHub in their raw form
 file_urls = [
-    'https://github.com/ContrastCoverageTexas/contrastai/blob/main/Files/Training1.pdf?raw=true',
-    'https://github.com/ContrastCoverageTexas/contrastai/blob/main/Files/Training2.pdf?raw=true',
-    'https://github.com/ContrastCoverageTexas/contrastai/blob/main/Files/Training3.pdf?raw=true',
-    'https://github.com/ContrastCoverageTexas/contrastai/blob/main/Files/Training4.pdf?raw=true'
+    'https://raw.githubusercontent.com/ContrastCoverageTexas/contrastai/main/Files/Training1.pdf',
+    'https://raw.githubusercontent.com/ContrastCoverageTexas/contrastai/main/Files/Training2.pdf',
+    'https://raw.githubusercontent.com/ContrastCoverageTexas/contrastai/main/Files/Training3.pdf',
+    'https://raw.githubusercontent.com/ContrastCoverageTexas/contrastai/main/Files/Training4.pdf'
 ]
 
 # Loading the vectordb on app load, if not already in session
