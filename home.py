@@ -218,7 +218,7 @@ with st.sidebar.container():
             ),
         ],
         format_func="title",
-        size="md",
+        size="sm",
         key="menu_selection",
         # Update router with new params
         on_change=update_params,
