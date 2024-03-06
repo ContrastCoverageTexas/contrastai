@@ -6,11 +6,11 @@ from io import BytesIO
 from typing import Any, Dict, List
 import pickle
 
-from langchain.docstore.document import Document
-from langchain.document_loaders import PyPDFLoader
-from langchain.embeddings.openai import OpenAIEmbeddings
-from langchain.text_splitter import RecursiveCharacterTextSplitter
-from langchain.vectorstores.faiss import FAISS
+from langchain_community.docstore.document import Document
+from langchain_community.document_loaders import PyPDFLoader
+from langchain_community.embeddings.openai import OpenAIEmbeddings
+from langchain_community.text_splitter import RecursiveCharacterTextSplitter
+from langchain_community.vectorstores.faiss import FAISS
 from pypdf import PdfReader
 import faiss
 
