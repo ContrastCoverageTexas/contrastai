@@ -14,5 +14,5 @@ streamlit_pills
 watchdog==3.0.0
 streamlit==1.26.0
 ipykernel==6.25.1
-PyPDF2==1.26.0
+pdfplumber
 openpyxl==2.5.8
