@@ -86,7 +86,7 @@ def setup_streamlit_ui():
 
     if not current_state and st.button('Trigger Alarm', type="primary", use_container_width=True):
         update_shared_state(True)
-        send_to_slack(message="Emergency alarm triggered!")
+        send_to_slack("Emergency alarm triggered!")
         st.toast('Alarm is being triggered! Please wait...', icon='✅')
         st.experimental_rerun()
 
@@ -95,7 +95,7 @@ def setup_streamlit_ui():
 
         if st.button("Reset Alarm", type="primary", use_container_width=True):
             update_shared_state(False)
-            send_to_slack(message="Emergency resolved!")
+            send_to_slack("Emergency resolved!")
             st.toast('Alarm is being reset! Please wait...', icon='✅')
             time.sleep(.5)
             st.toast('Check your CCT Zoom immediately', icon='🚨')            
