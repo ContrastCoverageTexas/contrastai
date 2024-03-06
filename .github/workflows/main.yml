@@ -1,36 +1,23 @@
-name: Example Workflow with Slack and OpenAI
+name: Slack Notification
 
-on: 
+on:
   workflow_dispatch:
     inputs:
-      slack_message:
+      message:
         description: 'Message to send to Slack'
         required: true
-        default: 'Hello! This is a default message.'
+        default: 'Default message'
 
 jobs:
-  notify_and_query:
+  slack-notify:
     runs-on: ubuntu-latest
     steps:
-      - name: Check out repository code
-        uses: actions/checkout@v2
+    - name: Checkout code
+      uses: actions/checkout@v2
       
-      - name: Send message to Slack
-        run: |
-          curl -X POST -H 'Content-type: application/json' \
-          --data '{"text":"${{ github.event.inputs.slack_message }}"}' \
-          ${{ secrets.WEBHOOK_URL }}
-      
-      - name: Query OpenAI API
-        run: |
-          curl https://api.openai.com/v1/engines/davinci/completions \
-          -H "Authorization: Bearer ${{ secrets.OPENAI_API_KEY }}" \
-          -H "Content-Type: application/json" \
-          -d '{
-            "prompt": "Translate the following English text to French: 'Hello, world!'",
-            "temperature": 0.5,
-            "max_tokens": 60,
-            "top_p": 1.0,
-            "frequency_penalty": 0.0,
-            "presence_penalty": 0.0
-          }'
+    - name: Send Notification to Slack
+      env:
+        WEBHOOK_URL: ${{ secrets.WEBHOOK_URL }}
+      run: |
+        MESSAGE="${{ github.event.inputs.message }}"
+        curl -X POST -H 'Content-type: application/json' --data "{\"text\":\"${MESSAGE}\"}" $WEBHOOK_URL
