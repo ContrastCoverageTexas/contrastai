@@ -110,13 +110,13 @@ def guide_bot():
                 st.session_state['is_expanded'] = False
 
 
-    # Caching function to create a vectordb from PDFs for performance efficiency
-    @st.cache_resource
-    def train_guide(files):
-        with st.spinner("Training on the latest data & best practices..."):
-            vectordb = get_index_for_pdf(files, openai.api_key)
-        st.success("Success! Contrast Care Guide is ready!")
-        return vectordb
+# Caching function to create a vectordb from PDFs for performance efficiency
+@st.cache_resource
+def train_guide(files):
+    with st.spinner("Training on the latest data & best practices..."):
+        vectordb = get_index_for_pdf(files, openai.api_key)
+    st.success("Success! Contrast Care Guide is ready!")
+    return vectordb
 
 # Function to download and read PDF files from GitHub using pdfplumber
 def read_pdf_from_github(url):
