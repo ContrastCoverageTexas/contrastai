@@ -64,7 +64,7 @@ def is_selected_in_prompt(selected, prompt):
     return any(item.get('content') == selected for item in prompt)
 
 def guide_bot():
-    openai.api_key = os.getenv("OPENAI_API_KEY")
+    openai.api_key = "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"
     st.title("AI Contrast Care Guide")
     st.write("Your Contrast Media Companion: Empowering Technicians & Patients for Safe Imaging.")
 
