@@ -1,5 +1,6 @@
 import requests
 import logging
+import os
 
 # Configure basic logging
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -8,7 +9,7 @@ def send_to_slack(message: str):
     """
     Sends a simple text message to Slack
     """
-    WEBHOOK_URL = "https://hooks.slack.com/services/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"
+    WEBHOOK_URL = os.getenv("WEBHOOK_URL")
     
     logging.info(f"Sending message to Slack: {message}")
     try:
