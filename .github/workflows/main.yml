@@ -1,17 +1,30 @@
-name: Example Workflow Using Secrets
+name: Example Workflow with Slack and OpenAI
 
 on: [push]
 
 jobs:
-  example_job:
+  notify_and_query:
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository code
         uses: actions/checkout@v2
-      - name: Use Webhook URL and OpenAI API Key
+      
+      - name: Send message to Slack
         run: |
-          echo "Using Webhook URL: $WEBHOOK_URL"
-          echo "Using OpenAI API Key: $OPENAI_API_KEY"
-        env:
-          WEBHOOK_URL: ${{ secrets.WEBHOOK_URL }}
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          curl -X POST -H 'Content-type: application/json' \
+          --data '{"text":"A push event triggered this message!"}' \
+          ${{ secrets.WEBHOOK_URL }}
+      
+      - name: Query OpenAI API
+        run: |
+          curl https://api.openai.com/v1/engines/davinci/completions \
+          -H "Authorization: Bearer ${{ secrets.OPENAI_API_KEY }}" \
+          -H "Content-Type: application/json" \
+          -d '{
+            "prompt": "Translate the following English text to French: 'Hello, world!'",
+            "temperature": 0.5,
+            "max_tokens": 60,
+            "top_p": 1.0,
+            "frequency_penalty": 0.0,
+            "presence_penalty": 0.0
+          }'
