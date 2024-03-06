@@ -6,6 +6,7 @@ from key_check import check_for_openai_key
 from streamlit_extras.stylable_container import stylable_container
 from streamlit_pills import pills
 import requests
+import os
 
 
 # Template for the chat prompt with instructions for the AI
@@ -31,7 +32,7 @@ def get_file_from_github(url):
 # URLs to the GitHub-hosted files
 logo_icon_url = 'https://github.com/ContrastCoverageTexas/contrastai/blob/main/Files/logo-240.png?raw=true'
 # user_icon_url = 'https://github.com/ContrastCoverageTexas/contrastai/blob/main/Files/patient-avatar.png?raw=true'
-physician_icon_url = 'https://github.com/ContrastCoverageTexas/contrastai/blob/main/Files/physician-avatar.png?raw=true'
+physician_icon_url = 'https://github.com/ContrastCoverageTexas/contrastai/blob/main/Files/physician-avatar.png'
 
 # Initialize CCT Logo
 logo_icon = get_file_from_github(logo_icon_url)
@@ -42,7 +43,7 @@ physician_icon = get_file_from_github(physician_icon_url)
 
 def guide_bot():
     # Setting the API key for OpenAI
-    openai.api_key = db.secrets.get("OPENAI_API_KEY")
+    openai.api_key = os.getenv("OPENAI_API_KEY")
 
     # Setting the title of the app
     st.title("AI Contrast Care Guide")
@@ -115,15 +116,27 @@ def guide_bot():
         st.success("Success! Contrast Care Guide is ready!")
         return vectordb
 
-    # Loading the vectordb on app load, if not already in session
-    if "vectordb" not in st.session_state:
-        binary_data = [
-            db.storage.binary.get("training1-pdf"),
-            db.storage.binary.get("training2-pdf"),
-            db.storage.binary.get("training3-pdf"),
-            db.storage.binary.get("training4-pdf"),
-        ]
-        st.session_state["vectordb"] = train_guide(binary_data)
+# Function to download file content from GitHub
+def download_file_from_github(url):
+    response = requests.get(url)
+    if response.status_code == 200:
+        return response.content
+    else:
+        st.error(f"Failed to download file: {url}")
+        return None
+
+# URLs for the files stored on GitHub in their raw form
+file_urls = [
+    'https://github.com/ContrastCoverageTexas/contrastai/blob/main/Files/Training1.pdf?raw=true',
+    'https://github.com/ContrastCoverageTexas/contrastai/blob/main/Files/Training2.pdf?raw=true',
+    'https://github.com/ContrastCoverageTexas/contrastai/blob/main/Files/Training3.pdf?raw=true',
+    'https://github.com/ContrastCoverageTexas/contrastai/blob/main/Files/Training4.pdf?raw=true'
+]
+
+# Loading the vectordb on app load, if not already in session
+if "vectordb" not in st.session_state:
+    binary_data = [download_file_from_github(url) for url in file_urls]
+    st.session_state["vectordb"] = train_guide(binary_data)
 
     # Retrieving or initializing the chat prompt from session state
     prompt = st.session_state.get("prompt", [{"role": "system", "content": "none"}])
