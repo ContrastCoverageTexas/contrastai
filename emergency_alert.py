@@ -93,7 +93,7 @@ def setup_streamlit_ui():
     if current_state:
         sac.alert(label='Emergency in progress', description='Emergency occurring! Please check your CCT Zoom console immediately!', color='red', radius='lg', banner=sac.Banner(play=True, direction='right', speed=100)
 
-        if st.button('Reset Alarm', type="primary", use_container_width=True):
+        if st.button("Reset Alarm", type="primary", use_container_width=True):
             update_shared_state(False)
             send_to_slack(message="Emergency resolved!")
             st.toast('Alarm is being reset! Please wait...', icon='✅')
