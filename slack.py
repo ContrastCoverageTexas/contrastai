@@ -1,6 +1,6 @@
 import requests
 
-WEBHOOK_URL = "https://hooks.slack.com/services/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"
+WEBHOOK_URL = "https://hooks.slack.com/services/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"
 
 def send_to_slack(message: str):
     """
