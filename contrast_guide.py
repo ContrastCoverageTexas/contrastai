@@ -1,21 +1,20 @@
 import streamlit as st
 import openai
 import time
+import requests
+import os
+import io
+import pdfplumber
 from my_pdf_lib import get_index_for_pdf
 from key_check import check_for_openai_key
 from streamlit_extras.stylable_container import stylable_container
 from streamlit_pills import pills
-import pdfplumber
-import requests
-import os
-import io
-
 
 # Template for the chat prompt with instructions for the AI
 prompt_template = """
 You are a contrast reaction management technician advisor, specialized in assisting with the assessment and treatment of contrast reactions. Your role is to support physicians, patients, and technicians by providing up-to-date information, guidance, and leadership in managing these reactions. You work for Contrast Coverage Texas, a provider of on-site and remote on-demand contrast supervision. You operate in an outpatient setting and work under a Contrast Coverage Texas Supervising Physician. Your first step is always to inform the Contrast Coverage Texas physician in the event of a reaction.
 
-You should be conversational. Ask questions and give short, clear responses to their specific problems. Always end your statement with a directly linked follow up question. If there is a suspected reaction, ensure that you treat the situation like an emergency priority.
+You should be conversational. Ask questions and give short, clear responses to their specific problems. Always end your statement with a directly linked follow-up question. If there is a suspected reaction, ensure that you treat the situation like an emergency priority.
 
 When interacting, remain calm and clear, asking follow-up questions when details are insufficient. Offer reminders and tips relevant to the situation, and take a step-by-step approach to management. Recommend courses of action and relevant medications to consider. Your expertise is crucial, and you lead with authority in this field.
 
@@ -23,25 +22,45 @@ Your contrast media reaction training content is:
     {pdf_extract}
 """
 
-def get_file_from_github(url):
-    response = requests.get(url)
-    if response.status_code == 200:
-        return response.content
-    else:
-        print(f"Failed to download file from {url}. Status code: {response.status_code}")
+# Function to download and read PDF files from GitHub using pdfplumber
+def read_pdf_from_github(url):
+    try:
+        response = requests.get(url)
+        if response.status_code == 200:
+            with io.BytesIO(response.content) as pdf_bytes:
+                with pdfplumber.open(pdf_bytes) as pdf:
+                    text = ""
+                    for page in pdf.pages:
+                        text += page.extract_text() if page.extract_text() else ""
+            return text
+        else:
+            st.error(f"Failed to download file from {url}. Status code: {response.status_code}")
+            return None
+    except Exception as e:
+        st.error(f"An error occurred while downloading and reading the PDF file: {e}")
         return None
 
-# URLs to the GitHub-hosted files
-logo_icon_url = 'https://github.com/ContrastCoverageTexas/contrastai/blob/main/Files/logo-240.png?raw=true'
-# user_icon_url = 'https://github.com/ContrastCoverageTexas/contrastai/blob/main/Files/patient-avatar.png?raw=true'
-physician_icon_url = 'https://github.com/ContrastCoverageTexas/contrastai/blob/main/Files/physician-avatar.png?raw=true'
+# Caching function to create a vectordb from PDFs for performance efficiency
+@st.cache_resource
+def train_guide(files):
+    with st.spinner("Training on the latest data & best practices..."):
+        vectordb = get_index_for_pdf(files, openai.api_key)
+    st.success("Success! Contrast Care Guide is ready!")
+    return vectordb
 
-# Initialize CCT Logo
-logo_icon = get_file_from_github(logo_icon_url)
-# Initialize User Icon
-# user_icon = get_file_from_github(user_icon_url)
-# Initialize Physician Icon
-physician_icon = get_file_from_github(physician_icon_url)
+def setup_app():
+    # URLs to the GitHub-hosted files
+    pdf_urls = [
+        "https://raw.githubusercontent.com/ContrastCoverageTexas/contrastai/main/Files/Training1.pdf",
+        "https://raw.githubusercontent.com/ContrastCoverageTexas/contrastai/main/Files/Training2.pdf",
+        "https://raw.githubusercontent.com/ContrastCoverageTexas/contrastai/main/Files/Training3.pdf",
+        "https://raw.githubusercontent.com/ContrastCoverageTexas/contrastai/main/Files/Training4.pdf"
+    ]
+
+    # Loading the vectordb on app load, if not already in session
+    if "vectordb" not in st.session_state:
+        binary_data = [read_pdf_from_github(url) for url in pdf_urls]
+        st.session_state["vectordb"] = train_guide(binary_data)
 
 def guide_bot():
     # Setting the API key for OpenAI
@@ -284,4 +303,6 @@ def is_selected_in_prompt(selected, prompt):
     bool: True if selected is in prompt, False otherwise.
     """
     return any(message.get('content') == selected for message in prompt)
+
+setup_app()
  
