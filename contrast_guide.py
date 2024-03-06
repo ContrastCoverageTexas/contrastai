@@ -22,6 +22,8 @@ Your contrast media reaction training content is:
     {pdf_extract}
 """
 
+OPENAI_API_KEY = "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"
+
 def download_pdf_binary(url):
     try:
         # Send a GET request to the URL
@@ -63,9 +65,7 @@ def setup_app():
 def is_selected_in_prompt(selected, prompt):
     return any(item.get('content') == selected for item in prompt)
 
-def guide_bot():
-    OPENAI_API_KEY = "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"
-    
+def guide_bot():    
     openai.api_key = OPENAI_API_KEY
     st.write("Your Contrast Media Companion: Empowering Technicians & Patients for Safe Imaging.")
 
