@@ -1,1 +1,24 @@
+name: Slack Notification
+
+on:
+  workflow_dispatch:
+    inputs:
+      message:
+        description: 'Message to send to Slack'
+        required: true
+        default: 'Default message'
+
+jobs:
+  slack-notify:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+      
+    - name: Send Notification to Slack
+      env:
+        WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      run: |
+        MESSAGE="${{ github.event.inputs.message }}"
+        curl -X POST -H 'Content-type: application/json' --data "{\"text\":\"${MESSAGE}\"}" $WEBHOOK_URL
 
