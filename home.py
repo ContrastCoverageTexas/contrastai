@@ -166,7 +166,7 @@ with st.sidebar.container():
                 icon="box-fill",
                 children=[
                     sac.MenuItem(
-                        "emergency alert",
+                        "emergency alert233",
                         icon="megaphone-fill",
                         tag=sac.Tag(emergency_text, emergency_color, bordered=False),
                     ),
