@@ -1,0 +1,4 @@
+steps:
+  - name: Slack Webook
+    env:
+      super_secret: ${{ secrets.WEBHOOK_URL }}
