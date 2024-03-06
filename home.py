@@ -160,34 +160,34 @@ with st.sidebar.container():
 
     menu = sac.menu(
         items = [
-            sac.MenuItem(label="home", icon="house-fill"),
+            sac.MenuItem('home', icon='house-fill'),
             sac.MenuItem(
-                "products",
-                icon="box-fill",
+                'products',
+                icon='box-fill',
                 children=[
                     sac.MenuItem(
-                        "emergency alert233",
-                        icon="megaphone-fill",
-                        tag=sac.Tag(emergency_text, emergency_color, bordered=False),
+                        'emergency alert',
+                        icon='megaphone-fill',
+                        tag=[sac.Tag(emergency_text, color=emergency_color, bordered=False)],
                     ),
                     sac.MenuItem("physician contrast guide", icon="heart-pulse-fill"),
                     sac.MenuItem("patient assistant", icon="wechat"),
                     sac.MenuItem("incident writer", icon="stars", disabled=True),
                 ],
             ),
-            sac.MenuItem(type="divider"),
+            sac.MenuItem(type='divider'),
             sac.MenuItem(
                 "Guides",
                 type="group",
                 children=[
                     sac.MenuItem(
-                        "Physician Onboarding Guide",
-                        icon="person-check",
+                        'Physician Onboarding Guide',
+                        icon='person-check',
                         disabled=True,
                         href="https://contrastcoveragetexas.com",
                     ),
                     sac.MenuItem(
-                        "Imaging Center Onboarding Guide",
+                        'Imaging Center Onboarding Guide',
                         icon="hospital",
                         disabled=True,
                         href="https://contrastcoveragetexas.com/",
