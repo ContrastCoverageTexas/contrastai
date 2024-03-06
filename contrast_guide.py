@@ -22,25 +22,23 @@ Your contrast media reaction training content is:
     {pdf_extract}
 """
 
-# Function to download and read PDF files from GitHub using pdfplumber
-def read_pdf_from_github(url):
+def download_pdf_binary(url):
     try:
+        # Send a GET request to the URL
         response = requests.get(url)
+        # Check if the response status is OK (200)
         if response.status_code == 200:
-            with io.BytesIO(response.content) as pdf_bytes:
-                with pdfplumber.open(pdf_bytes) as pdf:
-                    text = ""
-                    for page in pdf.pages:
-                        page_text = page.extract_text()
-                        text += page_text if page_text else ""
-            return text
+            # Return the binary content of the PDF
+            return response.content
         else:
+            # Display an error in Streamlit if the file couldn't be downloaded
             st.error(f"Failed to download file from {url}. Status code: {response.status_code}")
             return None
     except Exception as e:
-        st.error(f"An error occurred while downloading and reading the PDF file: {e}")
+        # Display an error in Streamlit if any exception occurred during the process
+        st.error(f"An error occurred while downloading the PDF file: {e}")
         return None
-
+        
 # Caching function to create a vectordb from PDFs for performance efficiency
 @st.cache_resource
 def train_guide(files):
@@ -59,7 +57,7 @@ def setup_app():
     ]
 
     if "vectordb" not in st.session_state:
-        binary_data = [read_pdf_from_github(url) for url in pdf_urls]
+        binary_data = [download_pdf_binary(url) for url in pdf_urls]
         st.session_state["vectordb"] = train_guide(binary_data)
 
 def guide_bot():
