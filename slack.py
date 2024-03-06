@@ -9,7 +9,7 @@ def send_to_slack(message: str):
     """
     Sends a simple text message to Slack
     """
-    WEBHOOK_URL = os.getenv("WEBHOOK_URL")
+    WEBHOOK_URL = st.secrets["WEBHOOK_URL"]
     
     logging.info(f"Sending message to Slack: {message}")
     try:
