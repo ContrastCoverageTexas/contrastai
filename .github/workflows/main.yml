@@ -1,4 +1,13 @@
-steps:
-  - name: Slack Webook
-    env:
-      super_secret: ${{ secrets.WEBHOOK_URL }}
+name: Example Workflow
+on: [push]
+
+jobs:
+  send_slack_message:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+    - name: Send Slack Message
+      run: python path/to/your/script.py
+      env:
+        SLACK_WEBHOOK_URL: ${{ secrets.WEBHOOK_URL }}
