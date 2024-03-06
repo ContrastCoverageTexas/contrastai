@@ -5,6 +5,7 @@ from my_pdf_lib import get_index_for_pdf
 from key_check import check_for_openai_key
 from streamlit_extras.stylable_container import stylable_container
 from streamlit_pills import pills
+from PyPDF2 import PdfReader
 import requests
 import os
 
@@ -116,33 +117,36 @@ def guide_bot():
         st.success("Success! Contrast Care Guide is ready!")
         return vectordb
 
-# Function to download file content from GitHub
-def download_file_from_github(url):
+# Function to download and read PDF files from GitHub
+def read_pdf_from_github(url):
     try:
         response = requests.get(url)
-        response.raise_for_status()  # This will check for HTTP errors
-        return response.content
-    except requests.RequestException as e:
-        st.error(f"Failed to download file: {url}. Error: {e}")
+        if response.status_code == 200:
+            pdf_bytes = io.BytesIO(response.content)
+            pdf_reader = PdfReader(pdf_bytes)
+            text = ""
+            for page in pdf_reader.pages:
+                text += page.extract_text()
+            return text
+        else:
+            st.error(f"Failed to download file from {url}. Status code: {response.status_code}")
+            return None
+    except Exception as e:
+        st.error(f"An error occurred while downloading and reading the PDF file: {e}")
         return None
 
-# URLs for the files stored on GitHub in their raw form
-file_urls = [
-    'https://raw.githubusercontent.com/ContrastCoverageTexas/contrastai/main/Files/Training1.pdf',
-    'https://raw.githubusercontent.com/ContrastCoverageTexas/contrastai/main/Files/Training2.pdf',
-    'https://raw.githubusercontent.com/ContrastCoverageTexas/contrastai/main/Files/Training3.pdf',
-    'https://raw.githubusercontent.com/ContrastCoverageTexas/contrastai/main/Files/Training4.pdf'
+# List of GitHub URLs for PDF files
+pdf_urls = [
+    "https://raw.githubusercontent.com/ContrastCoverageTexas/contrastai/main/Files/Training1.pdf",
+    "https://raw.githubusercontent.com/ContrastCoverageTexas/contrastai/main/Files/Training2.pdf",
+    "https://raw.githubusercontent.com/ContrastCoverageTexas/contrastai/main/Files/Training3.pdf",
+    "https://raw.githubusercontent.com/ContrastCoverageTexas/contrastai/main/Files/Training4.pdf"
 ]
 
 # Loading the vectordb on app load, if not already in session
-if "vectordb" not in st.session_state: 
-    binary_data = [download_file_from_github(url) for url in file_urls if download_file_from_github(url) is not None]
-    
-    # Ensure all files were downloaded successfully before proceeding
-    if len(binary_data) == len(file_urls):
-        st.session_state["vectordb"] = train_guide(binary_data)
-    else:
-        st.error("One or more files could not be downloaded. Please check the URLs and try again.")
+if "vectordb" not in st.session_state:
+    binary_data = [read_pdf_from_github(url) for url in pdf_urls]
+    st.session_state["vectordb"] = train_guide(binary_data)
 
 
     # Retrieving or initializing the chat prompt from session state
