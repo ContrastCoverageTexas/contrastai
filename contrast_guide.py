@@ -20,9 +20,9 @@ Your contrast media reaction training content is:
 """
 
 # Initialize CCT Logo
-logo_icon = db.storage.binary.get(key="logo-240")
-# user_icon = db.storage.binary.get(key="patient-avatar-png")
-physician_icon = db.storage.binary.get(key="physician-avatar-png")
+# logo_icon = db.storage.binary.get(key="logo-240")
+# # user_icon = db.storage.binary.get(key="patient-avatar-png")
+# physician_icon = db.storage.binary.get(key="physician-avatar-png")
 
 
 def guide_bot():
