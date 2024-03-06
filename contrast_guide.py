@@ -8,6 +8,7 @@ from streamlit_pills import pills
 import pdfplumber
 import requests
 import os
+import io
 
 
 # Template for the chat prompt with instructions for the AI
