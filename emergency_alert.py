@@ -53,12 +53,13 @@ def autoplay_sound(sound_data, sample_rate):
     virtual_file.seek(0)
     media_bytes = virtual_file.read()
     media_str = f"data:audio/ogg;base64,{base64.b64encode(media_bytes).decode()}"
-    media_html = f"""
-                    <audio autoplay class="stAudio">
-                    <source src="{media_str}" type="audio/ogg">
-                    Your browser does not support the audio element.
-                    </audio>
-                """
+    media_html = (
+        '<audio autoplay class="stAudio">'
+        '<source src="' + media_str + '" type="audio/ogg">'
+        'Your browser does not support the audio element.'
+        '</audio>'
+    )
+
     media_placeholder = st.empty()
     media_placeholder.empty()
     time.sleep(0.1)
