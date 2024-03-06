@@ -17,7 +17,7 @@ jobs:
       
     - name: Send Notification to Slack
       env:
-        WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        WEBHOOK_URL: ${{ secrets.WEBHOOK_URL }}
       run: |
         MESSAGE="${{ github.event.inputs.message }}"
         curl -X POST -H 'Content-type: application/json' --data "{\"text\":\"${MESSAGE}\"}" $WEBHOOK_URL
