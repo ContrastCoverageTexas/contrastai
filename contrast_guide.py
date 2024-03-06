@@ -62,19 +62,6 @@ def setup_app():
         binary_data = [read_pdf_from_github(url) for url in pdf_urls]
         st.session_state["vectordb"] = train_guide(binary_data)
 
-def is_selected_in_prompt(selected, prompt):
-    """
-    Check if the selected string is already present in the prompt.
-
-    Args:
-    selected (str): The selected string to be checked.
-    prompt (list): The list of prompt messages, each a dictionary.
-
-    Returns:
-    bool: True if selected is in prompt, False otherwise.
-    """
-    return any(item.get('content') == selected for item in prompt)
-
 def guide_bot():
     # Setting the API key for OpenAI
     openai.api_key = os.getenv("OPENAI_API_KEY")
@@ -253,6 +240,18 @@ if "vectordb" not in st.session_state:
         st.session_state['selected'] = None
         st.session_state['clear_flag'] = False  # Reset the flag after handling clear conversation
 
+def is_selected_in_prompt(selected, prompt):
+    """
+    Check if the selected string is already present in the prompt.
+
+    Args:
+    selected (str): The selected string to be checked.
+    prompt (list): The list of prompt messages, each a dictionary.
+
+    Returns:
+    bool: True if selected is in prompt, False otherwise.
+    """
+    return any(item.get('content') == selected for item in prompt)
 
 def clear_conversation():
     """
