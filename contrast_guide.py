@@ -22,8 +22,6 @@ Your contrast media reaction training content is:
     {pdf_extract}
 """
 
-OPENAI_API_KEY = "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"
-
 def download_pdf_binary(url):
     try:
         # Send a GET request to the URL
