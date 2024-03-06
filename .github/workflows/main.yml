@@ -1,7 +1,7 @@
 name: Send dynamic message to Slack
 
 on:
-  workflow_dispatch:
+  repository_dispatch:
     inputs:
       message:
         description: 'Message to send to Slack'
