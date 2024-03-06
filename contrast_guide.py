@@ -31,7 +31,8 @@ def read_pdf_from_github(url):
                 with pdfplumber.open(pdf_bytes) as pdf:
                     text = ""
                     for page in pdf.pages:
-                        text += page.extract_text() if page.extract_text() else ""
+                        page_text = page.extract_text()
+                        text += page_text if page_text else ""
             return text
         else:
             st.error(f"Failed to download file from {url}. Status code: {response.status_code}")
@@ -44,7 +45,7 @@ def read_pdf_from_github(url):
 @st.cache_resource
 def train_guide(files):
     with st.spinner("Training on the latest data & best practices..."):
-        vectordb = get_index_for_pdf(files, openai.api_key)
+        vectordb = get_index_for_pdf(files, openai.api_key)  # Ensure this function is defined to handle bytes-like objects correctly
     st.success("Success! Contrast Care Guide is ready!")
     return vectordb
 
@@ -57,7 +58,6 @@ def setup_app():
         "https://raw.githubusercontent.com/ContrastCoverageTexas/contrastai/main/Files/Training4.pdf"
     ]
 
-    # Loading the vectordb on app load, if not already in session
     if "vectordb" not in st.session_state:
         binary_data = [read_pdf_from_github(url) for url in pdf_urls]
         st.session_state["vectordb"] = train_guide(binary_data)
