@@ -5,7 +5,7 @@ from my_pdf_lib import get_index_for_pdf
 from key_check import check_for_openai_key
 from streamlit_extras.stylable_container import stylable_container
 from streamlit_pills import pills
-from PyPDF2 import PdfReader
+import pdfplumber
 import requests
 import os
 
@@ -117,16 +117,16 @@ def guide_bot():
         st.success("Success! Contrast Care Guide is ready!")
         return vectordb
 
-# Function to download and read PDF files from GitHub
+# Function to download and read PDF files from GitHub using pdfplumber
 def read_pdf_from_github(url):
     try:
         response = requests.get(url)
         if response.status_code == 200:
-            pdf_bytes = io.BytesIO(response.content)
-            pdf_reader = PdfReader(pdf_bytes)
-            text = ""
-            for page in pdf_reader.pages:
-                text += page.extract_text()
+            with io.BytesIO(response.content) as pdf_bytes:
+                with pdfplumber.open(pdf_bytes) as pdf:
+                    text = ""
+                    for page in pdf.pages:
+                        text += page.extract_text()
             return text
         else:
             st.error(f"Failed to download file from {url}. Status code: {response.status_code}")
