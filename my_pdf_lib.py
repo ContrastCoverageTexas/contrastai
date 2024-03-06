@@ -9,7 +9,7 @@ import pickle
 from langchain_community.docstore.document import Document
 from langchain_community.document_loaders import PyPDFLoader
 from langchain_community.embeddings.openai import OpenAIEmbeddings
-from langchain_community.text_splitter import RecursiveCharacterTextSplitter
+from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_community.vectorstores.faiss import FAISS
 from pypdf import PdfReader
 import faiss
