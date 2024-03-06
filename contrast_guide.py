@@ -64,8 +64,9 @@ def is_selected_in_prompt(selected, prompt):
     return any(item.get('content') == selected for item in prompt)
 
 def guide_bot():
-    openai.api_key = "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"
-    st.title("AI Contrast Care Guide")
+    OPENAI_API_KEY = "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"
+    
+    openai.api_key = OPENAI_API_KEY
     st.write("Your Contrast Media Companion: Empowering Technicians & Patients for Safe Imaging.")
 
     if 'is_expanded' not in st.session_state:
