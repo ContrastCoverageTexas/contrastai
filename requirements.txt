@@ -16,3 +16,4 @@ ipykernel==6.25.1
 pdfplumber
 openpyxl==2.5.8
 langchain-community
+langchain-text-splitters
