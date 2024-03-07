@@ -170,7 +170,7 @@ with st.sidebar.container():
                         icon='megaphone-fill',
                         tag=[sac.Tag(emergency_text, color=emergency_color, bordered=False)],
                     ),
-                    sac.MenuItem("physician contrast guide", icon="heart-pulse-fill", disabled=True),
+                    sac.MenuItem("physician contrast guide", icon="heart-pulse-fill"),
                     sac.MenuItem("patient assistant", icon="wechat", disabled=True),
                     sac.MenuItem("incident writer", icon="stars", disabled=True),
                 ],
@@ -183,6 +183,7 @@ with st.sidebar.container():
                     sac.MenuItem(
                         'Physician Onboarding Guide',
                         icon='person-check',
+                        disabled=True,
                         href="https://contrastcoveragetexas.com",
                     ),
                     sac.MenuItem(
