@@ -1,5 +1,6 @@
 import streamlit as st
 import openai
+import requests
 import time
 from my_pdf_lib import get_index_for_pdf
 from key_check import check_for_openai_key
@@ -24,10 +25,17 @@ Your contrast media reaction training content is:
 # # user_icon = db.storage.binary.get(key="patient-avatar-png")
 # physician_icon = db.storage.binary.get(key="physician-avatar-png")
 
+#Function to download PDF from url
+def download_pdf(url):
+    response = requests.get(url)
+    if response.status_code == 200:
+        return response.content
+    else:
+        raise Exception(f"Failed to download file from {url}")
 
 def guide_bot():
     # Setting the API key for OpenAI
-    openai.api_key = db.secrets.get("OPENAI_API_KEY")
+    openai.api_key = st.secrets["OPENAI_API_KEY"]
 
     # Setting the title of the app
     st.title("AI Contrast Care Guide")
@@ -102,12 +110,13 @@ def guide_bot():
 
     # Loading the vectordb on app load, if not already in session
     if "vectordb" not in st.session_state:
-        binary_data = [
-            db.storage.binary.get("training1-pdf"),
-            db.storage.binary.get("training2-pdf"),
-            db.storage.binary.get("training3-pdf"),
-            db.storage.binary.get("training4-pdf"),
+        pdf_urls = [
+            "https://github.com/ContrastCoverageTexas/contrastai/blob/main/Files/Training1.pdf?raw=true",
+            "https://github.com/ContrastCoverageTexas/contrastai/blob/main/Files/Training2.pdf?raw=true",
+            "https://github.com/ContrastCoverageTexas/contrastai/blob/main/Files/Training3.pdf?raw=true",
+            "https://github.com/ContrastCoverageTexas/contrastai/blob/main/Files/Training4.pdf?raw=true",
         ]
+        binary_data = [download_pdf(url) for url in pdf_urls]
         st.session_state["vectordb"] = train_guide(binary_data)
 
     # Retrieving or initializing the chat prompt from session state
