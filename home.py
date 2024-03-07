@@ -183,7 +183,6 @@ with st.sidebar.container():
                     sac.MenuItem(
                         'Physician Onboarding Guide',
                         icon='person-check',
-                        disabled=True,
                         href="https://contrastcoveragetexas.com",
                     ),
                     sac.MenuItem(
