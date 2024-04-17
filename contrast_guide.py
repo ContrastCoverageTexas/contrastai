@@ -134,7 +134,7 @@ def guide_bot():
     question = st.chat_input("Message Contrast Care Guide...")
 
     # Ensure the OpenAI key is available
-    check_for_openai_key()
+    # check_for_openai_key()
 
     if question:
         st.session_state['selected'] = None
