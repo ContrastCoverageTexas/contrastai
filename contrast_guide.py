@@ -21,9 +21,9 @@ Your contrast media reaction training content is:
 """
 
 # Initialize CCT Logo
-# logo_icon = db.storage.binary.get(key="logo-240")
-# # user_icon = db.storage.binary.get(key="patient-avatar-png")
-# physician_icon = db.storage.binary.get(key="physician-avatar-png")
+logo_icon = "https://i.imgur.com/h1oLc52.png"
+user_icon = "https://i.imgur.com/1VFWMju.jpeg"
+physician_icon = "https://i.imgur.com/BYJhLSD.png"
 
 #Function to download PDF from url
 def download_pdf(url):
