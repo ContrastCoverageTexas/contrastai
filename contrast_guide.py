@@ -20,6 +20,8 @@ Your contrast media reaction training content is:
     {pdf_extract}
 """
 
+client = OpenAI()
+
 # Initialize CCT Logo
 logo_icon = "https://i.imgur.com/h1oLc52.png"
 user_icon = "https://i.imgur.com/1VFWMju.jpeg"
@@ -228,7 +230,7 @@ def handle_user_question(question):
 
     # Calling ChatGPT and streaming the response
     response = []
-    for chunk in openai.ChatCompletion.create(
+    for chunk in client.chat.completions.create(
         model="gpt-3.5-turbo-1106", messages=prompt, stream=True
     ):
         text = chunk.choices[0].get("delta", {}).get("content")
