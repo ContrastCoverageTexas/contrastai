@@ -3,7 +3,7 @@ import openai
 import requests
 import time
 from my_pdf_lib import get_index_for_pdf
-from key_check import check_for_openai_key
+#from key_check import check_for_openai_key
 from streamlit_extras.stylable_container import stylable_container
 from streamlit_pills import pills
 
